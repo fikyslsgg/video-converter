@@ -7,14 +7,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { FfmpegExecuter } from './commands/ffmpeg/ffmpeg.executer.js';
-import { ConsoleLogger } from './out/console-logger/console-logger.js';
-export class App {
-    run() {
+export class CommandExecuter {
+    constructor(logger) {
+        this.logger = logger;
+    }
+    execute() {
         return __awaiter(this, void 0, void 0, function* () {
-            new FfmpegExecuter(ConsoleLogger.getInstance()).execute();
+            const input = yield this.prompt();
+            const command = this.build(input);
+            const stream = this.spawn(command);
+            this.processStream(stream, this.logger);
         });
     }
 }
-const app = new App();
-app.run();

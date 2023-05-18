@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -7,14 +8,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { FfmpegExecuter } from './commands/ffmpeg/ffmpeg.executer.js';
-import { ConsoleLogger } from './out/console-logger/console-logger.js';
-export class App {
-    run() {
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.PromptService = void 0;
+const inquirer_1 = __importDefault(require("inquirer"));
+class PromptService {
+    input(message, type) {
         return __awaiter(this, void 0, void 0, function* () {
-            new FfmpegExecuter(ConsoleLogger.getInstance()).execute();
+            const { result } = yield inquirer_1.default.prompt([
+                {
+                    type,
+                    name: 'result',
+                    message
+                }
+            ]);
+            return result;
         });
     }
 }
-const app = new App();
-app.run();
+exports.PromptService = PromptService;
